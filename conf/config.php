@@ -8,7 +8,7 @@ return array(
 	),
 
 	'dbinfo' => array(
-		'config' => 'mysql://hengdeli:ziliang@localhost:3306/?charset=utf8',
+		'config' => 'mysql://root:wangxu@localhost:3306/?charset=utf8',
 		'prefix' => 'hdl_',
 		'dbname' => 'hengdeli',
 	),
