@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE>用户登录</TITLE>
+<LINK href="images/Default.css" type=text/css rel=stylesheet>
+<LINK href="images/xtree.css" type=text/css rel=stylesheet>
+<LINK href="images/User_Login.css" type=text/css rel=stylesheet>
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+//-->
+</script>
+<style type="text/css">
+<!--
+.style1 {
+	font-size: 18px;
+	color: #DEE3F3;
+}
+-->
+#div1 {
+height: 187px;
+width: 40px;
+padding: 20px;
+background-repeat: repeat;
+
+}
+
+html>body #div1 {
+background-repeat: repeat;background-image: url(images/logo.png);
+}
+* #div1 {filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src="images/logo.png")
+
+}
+
+
+</style>
+
+</head>
+<script language="JavaScript">  
+function correctPNG() // correctly handle PNG transparency in Win IE 5.5 & 6.  
+{  
+    var arVersion = navigator.appVersion.split("MSIE")  
+    var version = parseFloat(arVersion[1])  
+    if ((version >= 5.5) && (document.body.filters))  
+    {  
+       for(var j=0; j<document.images.length; j++)  
+       {  
+          var img = document.images[j]  
+          var imgName = img.src.toUpperCase()  
+          if (imgName.substring(imgName.length-3, imgName.length) == "PNG")  
+          {  
+             var imgID = (img.id) ? "id='" + img.id + "' " : ""  
+             var imgClass = (img.className) ? "class='" + img.className + "' " : ""  
+             var imgTitle = (img.title) ? "title='" + img.title + "' " : "title='" + img.alt + "' "  
+             var imgStyle = "display:inline-block;" + img.style.cssText  
+             if (img.align == "left") imgStyle = "float:left;" + imgStyle  
+             if (img.align == "right") imgStyle = "float:right;" + imgStyle  
+             if (img.parentElement.href) imgStyle = "cursor:hand;" + imgStyle  
+             var strNewHTML = "<span " + imgID + imgClass + imgTitle  
+             + " style=\"" + "width:" + img.width + "px; height:" + img.height + "px;" + imgStyle + ";"  
+             + "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader"  
+             + "(src=\'" + img.src + "\', sizingMethod='scale');\"></span>"  
+             img.outerHTML = strNewHTML  
+             j = j-1  
+          }  
+       }  
+    }      
+}  
+window.attachEvent("onload", correctPNG);  
+</script> 
+
+<script language=javascript>
+function CheckForm()
+{
+	if(document.Login.user.value=="")
+	{
+		alert("请输入用户名！");
+		document.Login.user.focus();
+		return false;
+	}
+	if(document.Login.pwd.value == "")
+	{
+		alert("请输入密码！");
+		document.Login.pwd.focus();
+		return false;
+	}
+}
+</script>
+<META content="MSHTML 6.00.6000.16674" name=GENERATOR></HEAD>
+<BODY id=userlogin_body>
+<DIV></DIV>
+
+<DIV id=user_login>
+<DL>
+  <DD id=user_top>
+  <UL>
+   <LI class=user_top_r>
+     <div id="Layer1" style="position:relative; z-index:1; left: 310px; top: 235px; background-repeat: repeat;"><img src="images/logo.png" width="164" height="35"></div>
+     <div id="Layer1" style="position:relative; z-index:1; left: 125px; top: 200px; background-repeat: repeat;"><img height="38" width="130" src="images/zhongguo2.png"></div>
+   
+    </LI>
+  </UL>
+  <DD id=user_main>
+  <UL>
+    <LI class=user_main_l></LI>
+    <LI class=user_main_c>
+ 
+ <FORM name=Login action="login.php?bk=1" method=post onSubmit="return CheckForm();">
+ <DIV class=user_main_box>
+	 
+	 <input type="hidden" name="sess" value="person">
+    <UL>
+      <LI class=user_main_text>用户名： </LI>
+      <LI class=user_main_input><INPUT class=TxtUserNameCssClass id=UserName2 maxLength="20" name="user"> </LI>
+    </UL>   
+    <UL>
+      <LI class=user_main_text>密 码： </LI>
+      <LI class=user_main_input><INPUT class=TxtPasswordCssClass id=Password2 type="password" name="pwd"> </LI>
+    </UL>
+  </DIV>
+</LI>
+    <LI class=user_main_r><INPUT class=IbtnEnterCssClass id=button1 style="" type=image src="images/user_botton.gif" value=登录 name=button1 onfocus="true"> </LI>
+   
+    </FORM>
+    </UL>        
+<DD id=user_bottom>
+  <UL>
+    <LI class=user_bottom_l></LI>
+    <LI class=user_bottom_c>
+      <div align="center" class="style1"> </div>
+    </LI>
+    <LI class=user_bottom_r></LI>
+    </UL>
+    </DD>
+</DL>
+</DIV>
+<SPAN id=ValrUserName style="DISPLAY: none; COLOR: red"></SPAN>
+<SPAN id=ValrPassword style="DISPLAY: none; COLOR: red"></SPAN>
+<SPAN id=ValrValidateCode style="DISPLAY: none; COLOR: red"></SPAN>
+
+<DIV id=ValidationSummary1 style="DISPLAY: none; COLOR: red"></DIV>
+<DIV></DIV>
+
+</form></BODY></HTML>

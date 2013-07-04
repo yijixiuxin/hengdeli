@@ -1,0 +1,209 @@
+html, body, ul, li, ol , dl , dd , dt , p, h1, h2, h3, h4, h5, h6, form, fieldset, legend , table, td, img {margin: 0;padding: 0;border: 0;}
+
+img {border-width: 0px 0px 0px 0px}img {border-width: 0px 0px 0px 0px}
+li {list-style-type:none;}
+
+p {text-indent: 20px}
+
+
+.anniu
+{
+	color: #7b7b7b;
+	font-weight:bold;
+	text-decoration: none;
+	font-size: 12px;
+	font-family: 'Microsoft YaHei' ! important;}
+.anniu:hover
+{
+	color: #7b7b7b;
+	font-weight:bold;
+	text-decoration: none;
+	font-size: 12px;
+	font-family: 'Microsoft YaHei' ! important;}
+body,td,th {
+	font-family: 'Microsoft YaHei' ! important;
+	font-size: 12px;
+	color: #333;
+}
+a {  
+	color: #062c92; 
+	text-decoration: none;
+	font-size: 12px;
+	font-family: 'Microsoft YaHei' ! important;	
+}
+
+a:hover {
+	font-family: 'Microsoft YaHei' ! important;
+	color: #062c92;
+	text-decoration: underline;	
+}
+
+img {border-width: 0px 0px 0px 0px}img {border-width: 0px 0px 0px 0px}
+#jizhong {
+	text-align: center;
+}
+.juzhong {
+	text-align: center;
+}
+td {
+	text-align: center;
+}
+.tiaojian{
+	text-align:left;
+}
+
+#dangqian {text-align: left;
+}
+.indexneirong{
+	text-align:left;
+}
+.indexneirong2{
+	text-align:right;
+	font-style: italic;
+}
+
+#sm1 table tr td {
+	text-align: left;
+}
+
+/*驱动版块*/
+#qudong-neirong  p{
+	text-align: left;
+}
+
+
+.neirongjuzuo {
+	text-align: left;
+}
+.neirongjuzuo h1 {
+	text-align: center;
+}
+
+/*CSS 问题表样弄1�7 */
+.wenti-biao  table tr td {
+	height: 25px;	
+}
+
+.wenti-biao table tr .wenti-biaoming {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.wenti-biao table tr .wentinr {
+	text-align: left;
+}
+
+
+/*CSS 下一页start */
+/*CSS yahoo2 style pagination*/
+DIV.yahoo2 {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; FONT-SIZE: 0.85em; PADDING-BOTTOM: 3px; MARGIN: 3px; PADDING-TOP: 3px; FONT-FAMILY: Tahoma,Helvetica,sans-serif; TEXT-ALIGN: center
+}
+DIV.yahoo2 A {
+	BORDER-RIGHT: #ccdbe4 1px solid; PADDING-RIGHT: 8px; BACKGROUND-POSITION: 50% bottom; BORDER-TOP: #ccdbe4 1px solid; PADDING-LEFT: 8px; PADDING-BOTTOM: 2px; BORDER-LEFT: #ccdbe4 1px solid; COLOR: #0061de; MARGIN-RIGHT: 3px; PADDING-TOP: 2px; BORDER-BOTTOM: #ccdbe4 1px solid; TEXT-DECORATION: none
+}
+DIV.yahoo2 A:hover {
+	BORDER-RIGHT: #2b55af 1px solid; BORDER-TOP: #2b55af 1px solid; BACKGROUND-IMAGE: none; BORDER-LEFT: #2b55af 1px solid; COLOR: #fff; BORDER-BOTTOM: #2b55af 1px solid; BACKGROUND-COLOR: #3666d4
+}
+DIV.yahoo2 A:active {
+	BORDER-RIGHT: #2b55af 1px solid; BORDER-TOP: #2b55af 1px solid; BACKGROUND-IMAGE: none; BORDER-LEFT: #2b55af 1px solid; COLOR: #fff; BORDER-BOTTOM: #2b55af 1px solid; BACKGROUND-COLOR: #3666d4
+}
+DIV.yahoo2 SPAN.current {
+	PADDING-RIGHT: 6px; PADDING-LEFT: 6px; FONT-WEIGHT: bold; PADDING-BOTTOM: 2px; COLOR: #000; MARGIN-RIGHT: 3px; PADDING-TOP: 2px
+}
+DIV.yahoo2 SPAN.disabled {
+	DISPLAY: none
+}
+DIV.yahoo2 A.next {
+	BORDER-RIGHT: #ccdbe4 2px solid; BORDER-TOP: #ccdbe4 2px solid; MARGIN: 0px 0px 0px 10px; BORDER-LEFT: #ccdbe4 2px solid; BORDER-BOTTOM: #ccdbe4 2px solid
+}
+DIV.yahoo2 A.next:hover {
+	BORDER-RIGHT: #2b55af 2px solid; BORDER-TOP: #2b55af 2px solid; BORDER-LEFT: #2b55af 2px solid; BORDER-BOTTOM: #2b55af 2px solid
+}
+DIV.yahoo2 A.prev {
+	BORDER-RIGHT: #ccdbe4 2px solid; BORDER-TOP: #ccdbe4 2px solid; MARGIN: 0px 10px 0px 0px; BORDER-LEFT: #ccdbe4 2px solid; BORDER-BOTTOM: #ccdbe4 2px solid
+}
+DIV.yahoo2 A.prev:hover {
+	BORDER-RIGHT: #2b55af 2px solid; BORDER-TOP: #2b55af 2px solid; BORDER-LEFT: #2b55af 2px solid; BORDER-BOTTOM: #2b55af 2px solid
+}
+/*CSS yahoo style pagination*/
+
+DIV.yahoo {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; MARGIN: 3px; PADDING-TOP: 3px; TEXT-ALIGN: center
+}
+DIV.yahoo A {
+	BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #fff 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; MARGIN: 2px; BORDER-LEFT: #fff 1px solid; COLOR: #000099; PADDING-TOP: 2px; BORDER-BOTTOM: #fff 1px solid; TEXT-DECORATION: underline
+}
+DIV.yahoo A:hover {
+	BORDER-RIGHT: #000099 1px solid; BORDER-TOP: #000099 1px solid; BORDER-LEFT: #000099 1px solid; COLOR: #000; BORDER-BOTTOM: #000099 1px solid
+}
+DIV.yahoo A:active {
+	BORDER-RIGHT: #000099 1px solid; BORDER-TOP: #000099 1px solid; BORDER-LEFT: #000099 1px solid; COLOR: #f00; BORDER-BOTTOM: #000099 1px solid
+}
+DIV.yahoo SPAN.current {
+	BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #fff 1px solid; PADDING-LEFT: 5px; FONT-WEIGHT: bold; PADDING-BOTTOM: 2px; MARGIN: 2px; BORDER-LEFT: #fff 1px solid; COLOR: #000; PADDING-TOP: 2px; BORDER-BOTTOM: #fff 1px solid; BACKGROUND-COLOR: #fff
+}
+DIV.yahoo SPAN.disabled {
+	BORDER-RIGHT: #eee 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #eee 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; MARGIN: 2px; BORDER-LEFT: #eee 1px solid; COLOR: #ddd; PADDING-TOP: 2px; BORDER-BOTTOM: #eee 1px solid
+}
+
+/*CSS green-black style pagination*/
+
+DIV.green-black {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; MARGIN: 3px; PADDING-TOP: 3px; TEXT-ALIGN: center
+}
+DIV.green-black A {
+	BORDER-RIGHT: #2c2c2c 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #2c2c2c 1px solid; PADDING-LEFT: 5px; BACKGROUND: url(../images/pageimage1.gif) #2c2c2c; PADDING-BOTTOM: 2px; BORDER-LEFT: #2c2c2c 1px solid; COLOR: #fff; MARGIN-RIGHT: 2px; PADDING-TOP: 2px; BORDER-BOTTOM: #2c2c2c 1px solid; TEXT-DECORATION: none
+}
+DIV.green-black A:hover {
+	BORDER-RIGHT: #aad83e 1px solid; BORDER-TOP: #aad83e 1px solid; BACKGROUND: url(../images/pageimage2.gif) #aad83e; BORDER-LEFT: #aad83e 1px solid; COLOR: #fff; BORDER-BOTTOM: #aad83e 1px solid
+}
+DIV.green-black A:active {
+	BORDER-RIGHT: #aad83e 1px solid; BORDER-TOP: #aad83e 1px solid; BACKGROUND: url(../images/pageimage2.gif) #aad83e; BORDER-LEFT: #aad83e 1px solid; COLOR: #fff; BORDER-BOTTOM: #aad83e 1px solid
+}
+DIV.green-black SPAN.current {
+	BORDER-RIGHT: #aad83e 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #aad83e 1px solid; PADDING-LEFT: 5px; FONT-WEIGHT: bold; BACKGROUND: url(../images/pageimage2.gif) #aad83e; PADDING-BOTTOM: 2px; BORDER-LEFT: #aad83e 1px solid; COLOR: #fff; MARGIN-RIGHT: 2px; PADDING-TOP: 2px; BORDER-BOTTOM: #aad83e 1px solid
+}
+DIV.green-black SPAN.disabled {
+	BORDER-RIGHT: #f3f3f3 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #f3f3f3 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; BORDER-LEFT: #f3f3f3 1px solid; COLOR: #ccc; MARGIN-RIGHT: 2px; PADDING-TOP: 2px; BORDER-BOTTOM: #f3f3f3 1px solid
+}
+
+/*CSS 下一页end*/
+
+
+h1 {
+	font-weight: bold;
+	color: #333;
+	font-size: 16px;
+	font-family: 'Microsoft YaHei' ! important;
+		
+}
+
+
+span.jd-zhihang {
+	margin-left:30px;display:block; text-align: left;
+	}
+
+span.paihangbang-zhihang {
+	margin-left:90px;display:block; text-align: left;
+	}	
+
+
+.paihang {margin:0 0 0 10px;_display:inline;background:url('../images/ph.png') no-repeat;width:65px;height:27px; color:#245b93; line-height:30px; float:right  }	
+.paihang a{
+text-decoration: none;
+}.indexbiaoti {
+	text-align: left;
+}
+
+#xiaolian{
+	padding-left: 100px; 
+	}
+	
+#xiaolianqd{
+	padding-left: 25px; 
+	}
+
+.biandan_juzhong {text-align: center;
+	font-weight: bold;
+}	

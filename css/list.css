@@ -1,0 +1,26 @@
+/**
+ * author 王子良 for 北京市百货大楼
+ */
+.item_logo{
+	margin:15px auto;
+	padding-left:22px;
+	padding-top:11px;
+	background:url("../images/baihuo/log3.jpg") no-repeat;
+	height:39px;
+	border:1px solid;
+	width:263px;
+}
+
+.item_logo a:link{
+	font-size:18px;
+}
+
+.title_logo{
+	margin:5px auto;
+	padding-left:22px;
+	padding-top:4px;
+	background:url("../images/baihuo/log2.jpg") no-repeat;
+	height:21px;
+	border:1px solid;
+	width:103px;
+}
