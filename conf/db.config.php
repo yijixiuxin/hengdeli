@@ -3,7 +3,7 @@ if(!ONLINE_MODE){
 	return array(
 			'host'=>'localhost',
 			'user'=>'root',
-			'password'=>'root',
+			'password'=>'',
 			'database'=>'hengdeli'
 	);
 }else{
