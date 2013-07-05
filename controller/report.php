@@ -688,7 +688,7 @@ class report extends base{
 			}
 			self::$tpl->assign('compare', $compare);
 		}
-		
+
 		self::$tpl->assign('introInfos', util_report::introInfo(array('zws', 'zs', 'pingjuqb')));
 		self::$tpl->assign('table_type', 'analyse_percent'); //分布、平均分等数据分析
 		$this->display('report.tpl');
@@ -788,4 +788,5 @@ class report extends base{
 		self::$page_style .= '<style type="text/css">#tb_1 tbody td.dtd_1_0{text-align:left; padding-left:4px;} #dth_1_1{width:5em;}</style>';
 		$this->display('report.tpl');
 	}
+
 }
