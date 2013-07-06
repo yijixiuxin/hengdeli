@@ -18,6 +18,7 @@ class model_export extends model_base {
      * 高层报告
      */
     public static function g_report_1_1() {
+        $tTitle = '1.整体表现—集团与区域';
         $tableName = '1.1集团总体评分、各区域评分，及环比情况';
         $cstage = base::$context['cstage'];
         $cfull = model_calculate::getFull($cstage['pid'], 'total');//本期满分
@@ -63,6 +64,7 @@ class model_export extends model_base {
 
         $table_datas = array_merge(array(array('全国平均', '-', $c_average, $p_average,'-')), $table_datas);
         $tInfo = array();
+        $tInfo['tTitle'] = $tTitle;
         $tInfo['name'] = $tableName;
         $tInfo['title'] = $table_titles;
         $tInfo['data'] = $table_datas;
@@ -211,6 +213,7 @@ class model_export extends model_base {
     }
 
     public static function g_report_1_6_1() {
+        $tTitle = '1.6本期表现不佳的区域解析(低于集团平均分)';
         $tName = '本期表现不佳的区域成绩';
         $cstage = base::$context['cstage'];
         $cscore = util_report::score_of_acodes($cstage['stage'], 'total', $acodes='all');
@@ -231,6 +234,7 @@ class model_export extends model_base {
         $tables = array(
             array('titles'=>array( '区域', '排名', '本期得分率'), 'table_name'=>'本期表现不佳的区域成绩', 'datas'=>array_merge(array(array('全国平均', '-', $cscore)), $data1))
         );
+        $tInfo['tTitle'] = $tTitle;
         $tInfo['name'] = $tName;
         $tInfo['title'] = $tables[0]['titles'];
         $tInfo['data'] = $tables[0]['datas'];
@@ -296,6 +300,7 @@ class model_export extends model_base {
     }
 
     public static function g_report_1_7_1() {
+        $tTitle = '1.7上期表现不佳的区域追踪(低于集团平均分) ';
         $tName = '跟踪该类区域在本期的总分表现';
         $cstage = base::$context['cstage'];
         $cscore = util_report::score_of_acodes($cstage['stage'], 'total', $acodes='all'); //本期全国各区总分平均分
@@ -325,6 +330,7 @@ class model_export extends model_base {
         $tables = array(
             array('titles'=>array( '区域', '上期排名', '上期得分率', '本期排名', '本期得分率', '变化情况'), 'table_name'=>'跟踪该类区域在本期的总分表现','datas'=>array_merge(array(array('全国平均', '-', $pscore, '-', $cscore, '-')), $data1))
         );
+        $tInfo['tTitle'] = $tTitle;
         $tInfo['name'] = $tName;
         $tInfo['title'] = $tables[0]['titles'];
         $tInfo['data'] = $tables[0]['datas'];
@@ -426,6 +432,7 @@ class model_export extends model_base {
     }
 
     public static function g_report_1_8_1() {
+        $tTitle = '1.8上期达标区域追踪 ';
         $tName = '跟踪该类区域在本期的总分表现';
         $cstage = base::$context['cstage'];
 
@@ -449,6 +456,7 @@ class model_export extends model_base {
         $tables = array(
             array('titles'=>array( '区域', '上期排名', '上期得分率', '本期排名', '本期得分率', '变化情况'), 'table_name'=>'跟踪该类区域在本期的总分表现','datas'=>$data1)
         );
+        $tInfo['tTitle'] = $tTitle;
         $tInfo['name'] = $tName;
         $tInfo['title'] = $tables[0]['titles'];
         $tInfo['data'] = $tables[0]['datas'];
@@ -601,7 +609,6 @@ class model_export extends model_base {
             $pscores = util_report::scoresArray($pstage['stage'], $gcode, 'all');
             $pfull = model_calculate::getFull($pstage['pid'], $gcode);
             $pAnalyse = model_statistics::analyseAll($pscores, $pfull);
-            $compare = array();
             foreach ($cAnalyse as $k => $v) {
                 $compare[$k] = calcIncrease($v, $pAnalyse[$k]);//$v - $pAnalyse[$k];
             }
@@ -614,6 +621,9 @@ class model_export extends model_base {
             array(0 => '众数', 'l' => 2),
             array(0 => '中数', 'l' => 2)
         );
+        array_unshift($cAnalyse, '本期');
+        array_unshift($pAnalyse, '上期');
+        array_unshift($compare, '变化情况');
         $tInfo['data'] = array($cAnalyse, $pAnalyse, $compare);
         return $tInfo;
     }

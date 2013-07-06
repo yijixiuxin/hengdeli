@@ -16,71 +16,82 @@ class export extends base {
     public $h = 2;
     public $l = 1;
     public $column = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V' ,'W', 'X', 'Y', 'Z');
-
+    public $cField = array('服务细节', '检测指标');
+    public $cstage = null;
+    public $cacheDir = 'upload/';
 
     public function __construct() {
         parent::__construct();
         set_time_limit(0);
         ini_set('memory_limit', '2048M');
         $user_info = model_user::cuser();
+        $this->cstage = base::$context['cstage'];
         require ROOT_PATH.'/core/lib/excel/PHPExcel.php';
         $this->create_excel();
         $this->set_excel();
         $this->set_sheet();
+        $this->set_column_width(25);
     }
 
     /**
      * 导出高层报告
      */
     public function export_report() {
+        $cache = isset($_GET['cache']) ? $_GET['cache'] : 1;
+        $fileName = 'g_report_'.$this->cstage['stage'].'.xlsx';
+        if ($cache == 1) {
+            $this->ouput_file($fileName);
+        }
+        $tableName = '第'.$this->cstage['stage'].'期 高层阅读报告';
+
         //高层需要调用的方法
         $g_f = array(
-            array('fun' => 'g_report_1_1', 'param' => ''),
-            array('fun' => 'g_report_1_2_1', 'param' => ''),
-            array('fun' => 'g_report_1_2_2', 'param' => ''),
-            array('fun' => 'g_report_1_3', 'param' => ''),
-            array('fun' => 'g_report_1_4', 'param' => ''),
-            array('fun' => 'g_report_1_5', 'param' => ''),
-            array('fun' => 'g_report_1_6_1', 'param' => ''),
-            array('fun' => 'g_report_1_6_2', 'param' => ''),
-            array('fun' => 'g_report_1_6_3', 'param' => ''),
-            array('fun' => 'g_report_1_7_1', 'param' => ''),
-            array('fun' => 'g_report_1_7_2', 'param' => ''),
-            array('fun' => 'g_report_1_7_3', 'param' => ''),
-            array('fun' => 'g_report_1_8_1', 'param' => ''),
-            array('fun' => 'g_report_1_8_2', 'param' => ''),
-            array('fun' => 'g_report_1_8_3', 'param' => ''),
-            array('fun' => 'g_report_2_1', 'param' => '2'),
-            array('fun' => 'g_report_2_1', 'param' => '3'),
-            array('fun' => 'g_report_2_1', 'param' => '4'),
-            array('fun' => 'g_report_2_1', 'param' => '5'),
-            array('fun' => 'g_report_2_1', 'param' => '6'),
-            array('fun' => 'g_report_2_1', 'param' => '7'),
-            array('fun' => 'g_report_2_1', 'param' => '8'),
-            array('fun' => 'g_report_2_1', 'param' => '9'),
-            array('fun' => 'g_report_2_2', 'param' => '2'),
-            array('fun' => 'g_report_2_2', 'param' => '3'),
-            array('fun' => 'g_report_2_2', 'param' => '4'),
-            array('fun' => 'g_report_2_2', 'param' => '5'),
-            array('fun' => 'g_report_2_2', 'param' => '6'),
-            array('fun' => 'g_report_2_2', 'param' => '7'),
-            array('fun' => 'g_report_2_2', 'param' => '8'),
-            array('fun' => 'g_report_2_3', 'param' => '2'),
-            array('fun' => 'g_report_2_3', 'param' => '3'),
-            array('fun' => 'g_report_2_3', 'param' => '4'),
-            array('fun' => 'g_report_2_3', 'param' => '5'),
-            array('fun' => 'g_report_2_3', 'param' => '6'),
-            array('fun' => 'g_report_2_3', 'param' => '7'),
-            array('fun' => 'g_report_2_3', 'param' => '8'),
+                array('fun' => 'g_report_1_1', 'param' => ''),
+                array('fun' => 'g_report_1_2_1', 'param' => ''),
+                array('fun' => 'g_report_1_2_2', 'param' => ''),
+                array('fun' => 'g_report_1_3', 'param' => ''),
+                array('fun' => 'g_report_1_4', 'param' => ''),
+                array('fun' => 'g_report_1_5', 'param' => ''),
+                array('fun' => 'g_report_1_6_1', 'param' => ''),
+                array('fun' => 'g_report_1_6_2', 'param' => ''),
+                array('fun' => 'g_report_1_6_3', 'param' => ''),
+                array('fun' => 'g_report_1_7_1', 'param' => ''),
+                array('fun' => 'g_report_1_7_2', 'param' => ''),
+                array('fun' => 'g_report_1_7_3', 'param' => ''),
+                array('fun' => 'g_report_1_8_1', 'param' => ''),
+                array('fun' => 'g_report_1_8_2', 'param' => ''),
+                array('fun' => 'g_report_1_8_3', 'param' => ''),
+                array('fun' => 'g_report_2_1', 'param' => '2'),
+                array('fun' => 'g_report_2_2', 'param' => '2'),
+                array('fun' => 'g_report_2_3', 'param' => '2'),
+                array('fun' => 'g_report_2_1', 'param' => '3'),
+                array('fun' => 'g_report_2_2', 'param' => '3'),
+                array('fun' => 'g_report_2_3', 'param' => '3'),
+                array('fun' => 'g_report_2_1', 'param' => '4'),
+                array('fun' => 'g_report_2_2', 'param' => '4'),
+                array('fun' => 'g_report_2_3', 'param' => '4'),
+                array('fun' => 'g_report_2_1', 'param' => '5'),
+                array('fun' => 'g_report_2_2', 'param' => '5'),
+                array('fun' => 'g_report_2_3', 'param' => '5'),
+                array('fun' => 'g_report_2_1', 'param' => '6'),
+                array('fun' => 'g_report_2_2', 'param' => '6'),
+                array('fun' => 'g_report_2_3', 'param' => '6'),
+                array('fun' => 'g_report_2_1', 'param' => '7'),
+                array('fun' => 'g_report_2_2', 'param' => '7'),
+                array('fun' => 'g_report_2_3', 'param' => '7'),
+                array('fun' => 'g_report_2_1', 'param' => '8'),
+                array('fun' => 'g_report_2_2', 'param' => '8'),
+                array('fun' => 'g_report_2_3', 'param' => '8'),
+
         );
 
         //获取数据并写入excel
         foreach ($g_f as $k => $f) {
             //var_dump($f);exit();
             $data = model_export::$f['fun']($f['param']);
-            var_dump($f);
-            var_dump($data);
-            echo '<hr />';
+            //var_dump($f);
+            //var_dump($data);
+            //echo '<hr />';
             if (isset($data['name'])) {
                 $this->write_excel($data);
             } else {
@@ -89,10 +100,12 @@ class export extends base {
                 }
             }
             unset($data);
-           //if ($k == 1) break;
+           //if ($k == 5) break;
         }
-        $this->ouput_excel();
+        $this->ouput_excel($fileName);
     }
+
+
 
     public function write_excel($info = array()) {
         if (empty($info)) return false;
@@ -113,8 +126,16 @@ class export extends base {
             foreach ($info['title'] as $title) {
                 if (is_string($title)) {
                     $hShu = 1;
-                    self::$eSheet->setCellValue($this->column[$this->l].$this->h, $title, PHPExcel_Cell_DataType::TYPE_STRING);
-                    $this->l += 1;
+                    if (in_array($title, $this->cField)) {
+                        self::$eSheet->setCellValue($this->column[$this->l].$this->h, $title, PHPExcel_Cell_DataType::TYPE_STRING);
+                        $index = $this->column[$this->l].$this->h.':'.$this->column[$this->l+4].$this->h;
+                        self::$eSheet->mergeCells($index);
+                        $this->l += 5;
+                        $cField = true;
+                    } else {
+                        self::$eSheet->setCellValue($this->column[$this->l].$this->h, $title, PHPExcel_Cell_DataType::TYPE_STRING);
+                        $this->l += 1;
+                    }
                 } else {
                     $hShu = 2;
                     if (isset($title['l']) && !isset($title['c']) && $title['l'] > 1) {
@@ -133,6 +154,7 @@ class export extends base {
                         $this->h += 1;
                         foreach ($title['cs'] as $k =>$tc) {
                             self::$eSheet->setCellValue($this->column[$this->l+$k].$this->h ,$tc, PHPExcel_Cell_DataType::TYPE_STRING);
+                            $this->set_excel_fill($this->column[$this->l+$k].$this->h);
                         }
                         $this->h -= 1;
                         //$this->h += $t['l'] - 1;
@@ -149,10 +171,21 @@ class export extends base {
         if (!empty($info['data'])) {
             foreach ($info['data'] as $data) {
                 if (empty($data)) continue;
+                $i = 1;
                 foreach($data as $d) {
-                    self::$eSheet->setCellValue($this->column[$this->l].$this->h, $d, PHPExcel_Cell_DataType::TYPE_STRING);
-                    $this->set_excel_border($this->column[$this->l].$this->h);
-                    $this->l += 1;
+                    $d = str_replace('<br />', '', $d);
+                    if ($i == 1 && $cField === true) {
+                        self::$eSheet->setCellValue($this->column[$this->l].$this->h, $d, PHPExcel_Cell_DataType::TYPE_STRING);
+                        $index = $this->column[$this->l].$this->h.':'.$this->column[$this->l+4].$this->h;
+                        self::$eSheet->mergeCells($index);
+                        $this->set_excel_border($index);
+                        $this->l += 5;
+                    } else {
+                        self::$eSheet->setCellValue($this->column[$this->l].$this->h, $d, PHPExcel_Cell_DataType::TYPE_STRING);
+                        $this->set_excel_border($this->column[$this->l].$this->h);
+                        $this->l += 1;
+                    }
+                    $i++;
                 }
                 $this->h += 1;
                 $this->l = 1;
@@ -166,6 +199,10 @@ class export extends base {
         self::$excel = new PHPExcel();
         self::$eWrite = new PHPExcel_Writer_Excel2007(self::$excel);
         self::$eWrite->setOffice2003Compatibility(true);
+    }
+
+    public function write_table_name($tName) {
+        self::$eSheet->setCellValue();
     }
 
     public function set_excel_font($index, $size = 14, $bold = false) {
@@ -212,18 +249,35 @@ class export extends base {
         self::$eSheet->setTitle('report');
     }
 
-    public function ouput_excel() {
-        $outputFileName = 'report.xlsx';
+    public function set_column_width($w = 30) {
+        foreach($this->column as $k => $c) {
+            if ($k == 0) continue;
+            self::$eSheet->getColumnDimension($c)->setWidth($w);
+        }
+    }
+
+    public function ouput_excel($fileName = 'report.xlsx') {
+        $dirFile = $this->cacheDir.$fileName;
+        //var_dump($dirFile);
+        self::$eWrite->save($dirFile);
+        $this->ouput_file($fileName);
+    }
+
+    public function ouput_file($fileName = '') {
+        if (empty($fileName)) return false;
+        $dirFile = $this->cacheDir.$fileName;
+        if (!file_exists($dirFile)) {
+            return false;
+        }
         header('Content-Type: application/force-download');
         header('Content-Type: application/octet-stream');
         header('Content-Type: application/download');
-        header('Content-Disposition:inline;filename="'.$outputFileName.'"');
+        header('Content-Disposition:inline;filename="'.$fileName.'"');
         header('Content-Transfer-Encoding: binary');
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: no-cache');
-
-        self::$eWrite->save('php://output');
+        readfile($dirFile);
+        exit();
     }
 }
