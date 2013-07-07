@@ -20,6 +20,32 @@ class export extends base {
     public $cstage = null;
     public $cacheDir = 'upload/';
 
+    public $qu = array(
+        '01' => '北京区',
+        '02' => '成都区',
+        '03' => '福建区',
+        '04' => '哈尔滨区',
+        '05' => '杭州区',
+        '06' => '杭州新宇',
+        '07' => '合肥区',
+        '08' => '江西区',
+        '09' => '昆明区',
+        '10' => '南京区',
+        '11' => '南宁区',
+        '12' => '青岛区',
+        '13' => '上海区',
+        '14' => '沈阳区',
+        '15' => '苏州区',
+        '16' => '太原区',
+        '17' => '天津区',
+        '18' => '温州区',
+        '19' => '乌鲁木齐',
+        '20' => '无锡新宇',
+        '21' => '武汉区',
+        '22' => '郑州区',
+        '23' => '重庆区',
+    );
+
     public function __construct() {
         parent::__construct();
         set_time_limit(0);
@@ -43,6 +69,7 @@ class export extends base {
             $this->ouput_file($fileName);
         }
         $tableName = '第'.$this->cstage['stage'].'期 高层阅读报告';
+        $this->write_table_name($tableName);
 
         //高层需要调用的方法
         $g_f = array(
@@ -89,9 +116,7 @@ class export extends base {
         foreach ($g_f as $k => $f) {
             //var_dump($f);exit();
             $data = model_export::$f['fun']($f['param']);
-            //var_dump($f);
-            //var_dump($data);
-            //echo '<hr />';
+            if (empty($data)) continue;
             if (isset($data['name'])) {
                 $this->write_excel($data);
             } else {
@@ -101,6 +126,67 @@ class export extends base {
             }
             unset($data);
            //if ($k == 5) break;
+        }
+        $this->ouput_excel($fileName);
+    }
+
+    public function export_junior() {
+        $acode = isset($_GET['acode']) ? $_GET['acode'] : '01';
+        model_export::set_acode($acode);
+        $cache = isset($_GET['cache']) ? $_GET['cache'] : 1;
+        $fileName = 'j_report_'.$this->cstage['stage'].'_'.$acode.'.xlsx';
+        if ($cache == 1) {
+            $this->ouput_file($fileName);
+        }
+        $tableName = '第'.$this->cstage['stage'].'期 '.$this->qu[$acode].' 区域阅读报告';
+        $this->write_table_name($tableName);
+
+        //区域需要调用的方法
+        $j_f = array(
+            array('fun' => 'j_report_1_1', 'param' => ''),
+            array('fun' => 'j_report_1_2', 'param' => ''),
+            array('fun' => 'j_report_1_3', 'param' => ''),
+            array('fun' => 'j_report_1_4', 'param' => ''),
+            array('fun' => 'j_report_1_5', 'param' => ''),
+            array('fun' => 'j_report_1_6', 'param' => ''),
+            array('fun' => 'j_report_1_7', 'param' => ''),
+            array('fun' => 'j_report_1_8', 'param' => ''),
+            array('fun' => 'j_report_2_1', 'param' => '2'),
+            array('fun' => 'j_report_2_2', 'param' => '2'),
+            array('fun' => 'j_report_2_3', 'param' => '2'),
+            array('fun' => 'j_report_2_1', 'param' => '3'),
+            array('fun' => 'j_report_2_2', 'param' => '3'),
+            array('fun' => 'j_report_2_3', 'param' => '3'),
+            array('fun' => 'j_report_2_1', 'param' => '4'),
+            array('fun' => 'j_report_2_2', 'param' => '4'),
+            array('fun' => 'j_report_2_3', 'param' => '4'),
+            array('fun' => 'j_report_2_1', 'param' => '5'),
+            array('fun' => 'j_report_2_2', 'param' => '5'),
+            array('fun' => 'j_report_2_3', 'param' => '5'),
+            array('fun' => 'j_report_2_1', 'param' => '6'),
+            array('fun' => 'j_report_2_2', 'param' => '6'),
+            array('fun' => 'j_report_2_3', 'param' => '6'),
+            array('fun' => 'j_report_2_1', 'param' => '7'),
+            array('fun' => 'j_report_2_2', 'param' => '7'),
+            array('fun' => 'j_report_2_3', 'param' => '7'),
+            array('fun' => 'j_report_2_1', 'param' => '8'),
+            array('fun' => 'j_report_2_2', 'param' => '8'),
+            array('fun' => 'j_report_2_3', 'param' => '8'),
+        );
+        //获取数据并写入excel
+        foreach ($j_f as $k => $f) {
+            //var_dump($f);exit();
+            $data = model_export::$f['fun']($f['param']);
+            if (empty($data)) continue;
+            if (isset($data['name'])) {
+                $this->write_excel($data);
+            } else {
+                foreach ($data as $d) {
+                    $this->write_excel($d);
+                }
+            }
+            unset($data);
+            //if ($k == 5) break;
         }
         $this->ouput_excel($fileName);
     }
@@ -202,7 +288,10 @@ class export extends base {
     }
 
     public function write_table_name($tName) {
-        self::$eSheet->setCellValue();
+        self::$eSheet->setCellValue($this->column[$this-l].$this->h, $tName, PHPExcel_Cell_DataType::TYPE_STRING);
+        $this->set_excel_font($this->column[$this-l].$this->h, 24, true);
+        self::$eSheet->mergeCells($this->column[$this->l].$this->h.':'.$this->column[$this->l+5].$this->h);
+        $this->h += 2;
     }
 
     public function set_excel_font($index, $size = 14, $bold = false) {

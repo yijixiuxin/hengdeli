@@ -13,7 +13,8 @@ class test extends base {
     }
 
     public function g_report() {
-        $g_1 = model_export::g_report_2_3(4);
+        model_export::set_acode('01');
+        $g_1 = model_export::j_report_1_2();
         echo '<pre>';
         print_r($g_1);
     }
