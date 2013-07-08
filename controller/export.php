@@ -56,7 +56,9 @@ class export extends base {
         $this->create_excel();
         $this->set_excel();
         $this->set_sheet();
-        $this->set_column_width(25);
+        $this->set_column_width(10);
+        $this->set_head_logo();
+        $this->write_table_name('2013年盛时和尚时MS测评报告');
     }
 
     /**
@@ -198,7 +200,7 @@ class export extends base {
         if (!empty($info['tTitle'])) {
             self::$eSheet->setCellValue($this->column[$this->l].$this->h, $info['tTitle'], PHPExcel_Cell_DataType::TYPE_STRING);
             self::$eSheet->mergeCells($this->column[$this->l].$this->h.':'.$this->column[$this->l+4].$this->h);
-            $this->set_excel_font($this->column[$this->l].$this->h.':'.$this->column[$this->l+4].$this->h, 16, true);
+            $this->set_excel_font($this->column[$this->l].$this->h.':'.$this->column[$this->l+4].$this->h, 10, true);
             $this->h += 1;
         }
         if (!empty($info['name'])) {
@@ -214,12 +216,19 @@ class export extends base {
                     $hShu = 1;
                     if (in_array($title, $this->cField)) {
                         self::$eSheet->setCellValue($this->column[$this->l].$this->h, $title, PHPExcel_Cell_DataType::TYPE_STRING);
+                        $this->set_excel_font($this->column[$this->l].$this->h);
+                        for($j=0; $j <= 5; $j++) {
+                            $this->set_excel_border($this->column[$this->l+$j].$this->h);
+                        }
                         $index = $this->column[$this->l].$this->h.':'.$this->column[$this->l+4].$this->h;
                         self::$eSheet->mergeCells($index);
+                        $this->set_excel_border($index);
                         $this->l += 5;
                         $cField = true;
                     } else {
                         self::$eSheet->setCellValue($this->column[$this->l].$this->h, $title, PHPExcel_Cell_DataType::TYPE_STRING);
+                        $this->set_excel_font($this->column[$this->l].$this->h);
+                        $this->set_excel_border($this->column[$this->l].$this->h);
                         $this->l += 1;
                     }
                 } else {
@@ -228,19 +237,31 @@ class export extends base {
                         //有竖向合并
                         $index = $this->column[$this->l].$this->h.':'.$this->column[$this->l].($this->h+($title['l']-1));
                         self::$eSheet->setCellValue($this->column[$this->l].$this->h, $title[0], PHPExcel_Cell_DataType::TYPE_STRING);
+                        $this->set_excel_font($this->column[$this->l].$this->h, 10);
+                        for($j=0; $j<$title['l']; $j++) {
+                            $this->set_excel_border($this->column[$this->l].($this->h+$j));
+                        }
                         self::$eSheet->mergeCells($index);
+                        $this->set_excel_border($index);
                         //$this->l += 1;
                         //$this->h += $t['l'] -1;
                     } else if (isset($title['l']) && isset($title['c']) && isset($title['cs'])) {
                         //先把所有的合并了，一会儿在拆分
+                        for($j=0; $j <= $title['c']; $j++) {
+                            $this->set_excel_border($this->column[$this->l+$j].$this->h);
+                        }
                         $index = $this->column[$this->l].$this->h.':'.$this->column[$this->l+($title['c']-1)].$this->h;
                         self::$eSheet->mergeCells($index);
                         //开始写入数据
                         self::$eSheet->setCellValue($this->column[$this->l].$this->h, $title[0], PHPExcel_Cell_DataType::TYPE_STRING);
+                        $this->set_excel_border($this->column[$this->l].$this->h);
+                        $this->set_excel_font($this->column[$this->l].$this->h, 10);
                         $this->h += 1;
                         foreach ($title['cs'] as $k =>$tc) {
                             self::$eSheet->setCellValue($this->column[$this->l+$k].$this->h ,$tc, PHPExcel_Cell_DataType::TYPE_STRING);
+                            $this->set_excel_font($this->column[$this->l+$k].$this->h, 10);
                             $this->set_excel_fill($this->column[$this->l+$k].$this->h);
+                            $this->set_excel_border($this->column[$this->l+$k].$this->h);
                         }
                         $this->h -= 1;
                         //$this->h += $t['l'] - 1;
@@ -261,13 +282,21 @@ class export extends base {
                 foreach($data as $d) {
                     $d = str_replace('<br />', '', $d);
                     if ($i == 1 && $cField === true) {
-                        self::$eSheet->setCellValue($this->column[$this->l].$this->h, $d, PHPExcel_Cell_DataType::TYPE_STRING);
+                        self::$eSheet->setCellValue($this->column[$this->l].$this->h, $d);
+                        $this->set_excel_font($this->column[$this->l].$this->h, 10);
+
+                        $this->set_excel_border($this->column[$this->l].$this->h);
                         $index = $this->column[$this->l].$this->h.':'.$this->column[$this->l+4].$this->h;
+                        for ($j = 1; $j < 4; $j++) {
+                            $this->set_excel_border($this->column[$this->l+$j].$this->h);
+                        }
                         self::$eSheet->mergeCells($index);
                         $this->set_excel_border($index);
                         $this->l += 5;
                     } else {
-                        self::$eSheet->setCellValue($this->column[$this->l].$this->h, $d, PHPExcel_Cell_DataType::TYPE_STRING);
+                        self::$eSheet->setCellValue($this->column[$this->l].$this->h, $d);
+                        $this->set_cell_align($this->column[$this->l].$this->h, $d);
+                        $this->set_excel_font($this->column[$this->l].$this->h, 10);
                         $this->set_excel_border($this->column[$this->l].$this->h);
                         $this->l += 1;
                     }
@@ -277,6 +306,10 @@ class export extends base {
                 $this->l = 1;
             }
             $this->l = 1;
+        } else {
+            self::$eSheet->setCellValue($this->column[$this->l].$this->h, '没有数据');
+            $this->set_excel_font($this->column[$this->l].$this->h, 10);
+            $this->set_excel_border($this->column[$this->l].$this->h);
         }
         $this->h += 2;
     }
@@ -289,12 +322,21 @@ class export extends base {
 
     public function write_table_name($tName) {
         self::$eSheet->setCellValue($this->column[$this-l].$this->h, $tName, PHPExcel_Cell_DataType::TYPE_STRING);
-        $this->set_excel_font($this->column[$this-l].$this->h, 24, true);
+        $this->set_excel_font($this->column[$this-l].$this->h, 10, true);
         self::$eSheet->mergeCells($this->column[$this->l].$this->h.':'.$this->column[$this->l+5].$this->h);
         $this->h += 2;
     }
 
-    public function set_excel_font($index, $size = 14, $bold = false) {
+    public function set_cell_align($index, $val) {
+        if (is_numeric($val) || strpos($val, '%') || $val == '-') {
+            $objStyleA5 = self::$eSheet->getStyle($index);
+            $objAlignA5 = $objStyleA5->getAlignment();      //获取指定单元格对齐方式对象
+            $objAlignA5->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);      //设置为水平方向靠右
+            $objAlignA5->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);           //设置垂直方向居中
+        }
+    }
+
+    public function set_excel_font($index, $size = 10, $bold = false) {
         $eStyle = self::$eSheet->getStyle($index);
         $eFont = $eStyle->getFont();
         $eFont->setSize($size);
@@ -343,6 +385,21 @@ class export extends base {
             if ($k == 0) continue;
             self::$eSheet->getColumnDimension($c)->setWidth($w);
         }
+    }
+
+    public function set_head_logo() {
+        $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('logo');
+        $objDrawing->setDescription('Image inserted by Zeal');
+        $objDrawing->setPath('./upload/logo.jpg');
+        $objDrawing->setHeight(46);
+        $objDrawing->setCoordinates($this->column[$this->l].$this->h);
+        $objDrawing->setOffsetX(10);
+        //$objDrawing->setRotation(15);
+        $objDrawing->getShadow()->setVisible(true);
+        $objDrawing->getShadow()->setDirection(36);
+        $objDrawing->setWorksheet(self::$eSheet);
+        $this->h += 3;
     }
 
     public function ouput_excel($fileName = 'report.xlsx') {

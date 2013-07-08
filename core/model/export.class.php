@@ -88,7 +88,7 @@ class model_export extends model_base {
                 array(0 => '众数', 'l' => 2),
                 array(0 => '中数', 'l' => 2)
         );
-        array_unshift($cAnalyse, '本期');
+        @array_unshift($cAnalyse, '本期');
         $tInfo['data'] = array($cAnalyse);
         return $tInfo;
 
@@ -469,7 +469,7 @@ class model_export extends model_base {
         $tName = '跟踪该类区域在本期的模块表现';
         $cstage = base::$context['cstage'];
         $pscore = util_report::score_of_acodes($cstage['stage']-1, 'total', $acodes='all');
-        if(-1 == $pscore){ return array('name' => $tName, 'title' => array(), 'data' => array());}
+        if(-1 == $pscore){ return array();}
         $areas = model_area::getItem(); $acount = count($areas);
         $data1 = $data2 = $data3 = array(); $certainAcode = array();
         foreach ($areas as $acode => $ainfo) {
@@ -519,7 +519,7 @@ class model_export extends model_base {
         $tName = '跟踪上期支撑达标的服务细节亮点在本期的保持情况';
         $cstage = base::$context['cstage'];
         $pscore = util_report::score_of_acodes($cstage['stage']-1, 'total', $acodes='all');
-        if(-1 == $pscore){ return array('name' => $tName, 'title' => array(), 'data' => array());}
+        if(-1 == $pscore){ return array();}
         $areas = model_area::getItem(); $acount = count($areas);
         $data1 = $data2 = $data3 = array(); $certainAcode = array();
         foreach ($areas as $acode => $ainfo) {
@@ -619,19 +619,18 @@ class model_export extends model_base {
         $tInfo['title'] = array(
             array(0 => '', 'l' => 2),
             array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65分)', '[65分,75分)', '[75分,85分)', '[85分,100分)')),
-            array(0 => '集团平均分', 'l' => 2),
+            array(0 => '集团平均成绩', 'l' => 2),
             array(0 => '众数', 'l' => 2),
             array(0 => '中数', 'l' => 2)
         );
-        array_unshift($cAnalyse, '本期');
-        array_unshift($pAnalyse, '上期');
-        array_unshift($compare, '变化情况');
+        @array_unshift($cAnalyse, '本期');
+        @array_unshift($pAnalyse, '上期');
+        @array_unshift($compare, '变化情况');
         $tInfo['data'] = array($cAnalyse, $pAnalyse, $compare);
         return $tInfo;
     }
 
     public static function g_report_2_3($gcode = 2) {
-        $gcode = $_GET['gcode'];
         $tName = $gcode.'.3高层需重点关注的区域';
         $cstage = base::$context['cstage'];
         $cscore = util_report::score_of_acodes($cstage['stage'], $gcode, $acodes='all'); if(!$cscore) exit('gcode error');
@@ -776,7 +775,7 @@ class model_export extends model_base {
             $p_all_avg = $p_area_avg = '-';
         }
         $table_datas = util_sort::bubbleSort($table_datas, 'c_defenlv');
-        array_unshift($table_datas,
+        @array_unshift($table_datas,
             array('name'=>'全国平均', 'rank'=>'-', 'c_defenlv'=>$c_all_avg, 'p_defenlv'=>$p_all_avg, 'change'=>'-'),
             array('name'=>'区域平均', 'rank'=>'-', 'c_defenlv'=>$c_area_avg, 'p_defenlv'=>$p_area_avg, 'change'=>'-')
         );
@@ -810,15 +809,15 @@ class model_export extends model_base {
                 $compare[$k] = calcIncrease($v, $pAnalyse[$k]);
             }
         }
-        array_unshift($cAnalyse, '本期');
-        array_unshift($pAnalyse, '上期');
-        array_unshift($compare, '变化情况');
+        @array_unshift($cAnalyse, '本期');
+        @array_unshift($pAnalyse, '上期');
+        @array_unshift($compare, '变化情况');
         $tables = array();
         $tInfo['name'] = $tName;
         $tInfo['title'] = array(
             array(0 => '', 'l' => 2),
             array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65分)', '[65分,75分)', '[75分,85分)', '[85分,100分)')),
-            array(0 => '集团平均分', 'l' => 2),
+            array(0 => '区域平均成绩', 'l' => 2),
             array(0 => '众数', 'l' => 2),
             array(0 => '中数', 'l' => 2)
         );
@@ -843,7 +842,7 @@ class model_export extends model_base {
             $table_datas[] = array($m_name,$rank, $mvalue);
             $t_rank ++;
         }
-        $table_titles = array('门店', '排名', '本期得分', '查看详情'); //th中的标题
+        $table_titles = array('门店', '排名', '本期得分'); //th中的标题
         return array('name'=>$tName, 'title' => $table_titles, 'data' => $table_datas);
     }
 
@@ -1183,14 +1182,14 @@ class model_export extends model_base {
                 $compare[$k] = calcIncrease($v, $pAnalyse[$k]);
             }
         }
-        array_unshift($cAnalyse, '本期');
-        array_unshift($pAnalyse, '上期');
-        array_unshift($compare, '变化情况');
+        @array_unshift($cAnalyse, '本期');
+        @array_unshift($pAnalyse, '上期');
+        @array_unshift($compare, '变化情况');
         $tInfo['name'] = $tName;
         $tInfo['title'] = array(
             array(0 => '', 'l' => 2),
             array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65分)', '[65分,75分)', '[75分,85分)', '[85分,100分)')),
-            array(0 => '集团平均分', 'l' => 2),
+            array(0 => '区域平均成绩', 'l' => 2),
             array(0 => '众数', 'l' => 2),
             array(0 => '中数', 'l' => 2)
         );
