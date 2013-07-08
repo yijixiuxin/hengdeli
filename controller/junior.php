@@ -55,6 +55,7 @@ class junior extends base{
 				}
 			}
 		}
+        self::$tpl->assign('x_acode', isset($_REQUEST['acode']) ? $_REQUEST['acode'] : '');
 		self::$tpl->assign('page_type', 'junior');
 	}
 

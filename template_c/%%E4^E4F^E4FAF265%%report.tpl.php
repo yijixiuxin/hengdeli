@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-07-06 15:05:53
+<?php /* Smarty version 2.6.26, created on 2013-07-08 05:05:56
          compiled from report.tpl */ ?>
 <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "header.tpl", 'smarty_include_vars' => array()));
@@ -49,10 +49,14 @@ unset($_smarty_tpl_vars);
 					<div style="margin:0;text-align:left;">
 						本期为第<?php echo $this->_tpl_vars['context']['cstage']['stage']; ?>
 期<br/>
+                        <a href="index.php?c=export&a=export_report">下载本期高层阅读报告</a>
 						<!---->
 						<!---->
 					</div>
 				</div>
+            <?php elseif ($this->_tpl_vars['x_acode']): ?>
+                <div><a href="index.php?c=export&a=export_junior&acode=<?php echo $this->_tpl_vars['x_acode']; ?>
+">下载本期区域阅读报告</a> </div>
 			<?php endif; ?>
 
 			<?php if ($this->_tpl_vars['table_type'] == 'analyse' || $this->_tpl_vars['table_type'] == 'analyse_percent'): ?>

@@ -29,10 +29,13 @@
 				<div style="padding:10px 0;">
 					<div style="margin:0;text-align:left;">
 						本期为第{$context.cstage.stage}期<br/>
+                        <a href="index.php?c=export&a=export_report">下载本期高层阅读报告</a>
 						<!--{*执行时间{$context.cstage.start_date} - {$context.cstage.end_date}<br/>*}-->
 						<!--{*检查盛时{$creportInfo.ctype1}家，尚时{$creportInfo.ctype2}家；新增表行{$creportInfo.cadd}家，新减表行{$creportInfo.cdelete}家。<br/>*}-->
 					</div>
 				</div>
+            {elseif $x_acode}
+                <div><a href="index.php?c=export&a=export_junior&acode={$x_acode}">下载本期区域阅读报告</a> </div>
 			{/if}
 
 			{if $table_type eq "analyse" || $table_type eq "analyse_percent"}
