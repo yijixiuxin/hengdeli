@@ -822,13 +822,13 @@ class model_export extends model_base {
             array(0 => '中数', 'l' => 2)
         );
         $tInfo['data'] = array($cAnalyse, $pAnalyse, $compare);
-        $rank = self::j_rank(true);
+        $rank = self::j_rank(false);
         $tables[] = $tInfo;
         $tables[] = $rank;
         return $tables;
     }
 
-    public static function j_rank() {
+    public static function j_rank($re = false) {
         $tName = '区域所有门店评分一览';
         $cstage = base::$context['cstage'];
         $datas = model_statistics::get($cstage['pid'], $cstage['stage'], 'byarea');
@@ -836,14 +836,21 @@ class model_export extends model_base {
         arsort($datas);//var_dump($datas);die;
         $table_datas = array();
         $rank = 1; $tempv = null; $t_rank=1;
+        $dianInfo = array();
         foreach ($datas as $mcode=>$mvalue) {
             $m_name = model_mendian::getItem(self::$acode, "{$mcode}:name");
+            $dianInfo[$mcode] = $m_name;
             if($mvalue!=$tempv) {$rank = $t_rank; $tempv = $mvalue;}
             $table_datas[] = array($m_name,$rank, $mvalue);
             $t_rank ++;
         }
         $table_titles = array('门店', '排名', '本期得分'); //th中的标题
-        return array('name'=>$tName, 'title' => $table_titles, 'data' => $table_datas);
+        if ($re == false) {
+            return array('name'=>$tName, 'title' => $table_titles, 'data' => $table_datas);
+        } else {
+            return $dianInfo;
+        }
+
     }
 
     public static function j_report_1_3() {
@@ -1274,5 +1281,107 @@ class model_export extends model_base {
                 'data' => $data3);
         }
         return $tables;
+    }
+
+
+    public static function content($from, $mcode) {
+        $cstage = base::$context['cstage'];
+        $mendian = model_mendian::Get($mcode);
+        if( base::$context['cuser']['acode']!='all' && base::$context['cuser']['acode']!=$mendian['acode']){
+            return array();
+        }
+        if($from=='report'){
+            $location[] = array('title'=>'高层阅读报告', 'url'=>'c=report&a=index');
+            $location[] = array('title'=>'全国门店排行榜', 'url'=>'c=report&a=rank');
+            $location[] = array('title'=>'查看详情');
+        }else{
+            $area_name = model_area::getItem("{$mendian['acode']}:name");
+            $location[] = array('title'=>'区域阅读报告', 'url'=>'c=junior&a=index');
+            $location[] = array('title'=>$area_name, 'url'=>"c=junior&a=index&acode={$mendian['acode']}");
+            $location[] = array('title'=>'排行榜', 'url'=>"c=junior&a=rank&acode={$mendian['acode']}");
+            $location[] = array('title'=>'查看详情');
+        }
+        $data = model_unit::Gets($cstage['pid'], array($cstage['info_param']=>$cstage['stage_str'].$mendian['code']));
+        $data = $data[0];
+        $project_info = model_project::projectInfo($cstage['pid']);
+        $qids_array = $project_info['qids_array']; //var_dump($qids_array);die;
+        if(!$qids_array || !$data) exit('error');
+
+        $tables = array();
+        foreach ($qids_array as $qgroup) {
+            $tables[] = self::buildPart($project_info['sid'], $qgroup, $data, $mcode);
+        }
+        return $tables;
+    }
+
+
+
+    public static function buildPart($sid, $show_question, $data, $mcode){
+        $cstage = base::$context['cstage'];
+        $mendian = model_mendian::Get($mcode);
+        $questions = model_question::Gets($sid);
+        $table_datas = array();
+        foreach ($show_question['qids'] as $qid) {
+            $qk = "{$sid}X{$qid}";
+            $tq = $questions[$qid];
+            switch($tq['type']){
+                case 'S'://短自由文本
+                case 'T'://长自由文本
+                    $tanswer = $data[$qk];
+                    $tscore = $treason ='-';
+                    break;
+                case 'L'://单选
+                case 'O'://带评论的单选
+                    $ansInfo = model_answer::getItem("{$qid}:{$data[$qk]}");
+                    $tanswer = $ansInfo['answer'];
+                    if($show_question['calcble']){
+                        $tscore = $ansInfo['value'];
+                        $treason = empty($data["{$qk}_add"]) ? '-' : $data["{$qk}_add"];
+                    }
+                    break;
+                case 'M': //多选题不能计分
+                    $tanswer = '';
+                    if(strpos($data[$qk], ',')!==false) $options = explode(',', $data[$qk]);
+                    elseif(strpos($data[$qk], '/')!==false) $options = explode('/', $data[$qk]);
+                    else $options = array($data[$qk]);
+                    //var_dump(strpos($options, '/'));die;
+                    if(!empty($options)){
+                        foreach ($options as $option) {
+                            $tanswer .= model_answer::getItem("{$qid}:{$option}:answer")."<br/>";
+                        }
+                    }
+                    $tscore = $treason ='-';
+                    break;
+                case 'H': //自定义
+                    if($cstage['mcode_param'] == $qk){
+                        $tk = $cstage['acode_param'];
+                        $tacode = $data[$tk];
+                        $t_m_info = model_mendian::getItem($tacode, "{$tacode}{$data[$qk]}");
+                        $t_m_type = getConf("type:{$t_m_info['type']}");
+                        $tanswer = $t_m_info['name']."($t_m_type)";// var_dump($tanswer);die();
+                        $tq['question'] = '门店';
+
+                    }elseif($cstage['acode_param'] == $qk){
+                        $tanswer = model_area::getItem("{$data[$qk]}:name");
+                    }
+
+                    break;
+            }
+            if($show_question['calcble']){
+                $tfull = model_calculate::getFull($cstage['pid'], "{$show_question['gcode']}:{$qid}");
+                $table_datas[] = array($tq['question'], $tfull, $tscore, $treason);
+            }else{
+                $table_datas[] = array($tq['question'], $tanswer);
+            }
+        }
+        if($show_question['calcble']){
+            $tfull = model_calculate::getFull($cstage['pid'], $show_question['gcode']); //某题组满分
+            $tscore = util_report::score_of_mendians($cstage['stage'], $show_question['gcode'], $mendian['acode'], $mendian['code']);
+            $table_datas[] = array('模块总评分', $tfull, $tscore, '-');
+            return array('name'=>$show_question['gname'], 'title'=>array('检测项目', '满分', '评分', '失分说明'), 'data'=>$table_datas);
+        }else{
+            return array('name'=>$show_question['gname'], 'title'=>array('检测项目', '结果'), 'data'=>$table_datas);
+        }
+
     }
 }

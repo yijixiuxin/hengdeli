@@ -14,7 +14,7 @@ class test extends base {
 
     public function g_report() {
         model_export::set_acode('01');
-        $g_1 = model_export::j_report_1_2();
+        $g_1 = model_export::j_report_1_2('junior', '0201');
         echo '<pre>';
         print_r($g_1);
     }

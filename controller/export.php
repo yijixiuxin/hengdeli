@@ -13,6 +13,7 @@ class export extends base {
     public static $eSheet = null;
     public static $eWrite = null;
     public static $eSet = null;
+    public static $eSheetIndex = 1;
     public $h = 2;
     public $l = 1;
     public $column = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V' ,'W', 'X', 'Y', 'Z');
@@ -145,35 +146,35 @@ class export extends base {
 
         //区域需要调用的方法
         $j_f = array(
-            array('fun' => 'j_report_1_1', 'param' => ''),
+            //array('fun' => 'j_report_1_1', 'param' => ''),
             array('fun' => 'j_report_1_2', 'param' => ''),
-            array('fun' => 'j_report_1_3', 'param' => ''),
-            array('fun' => 'j_report_1_4', 'param' => ''),
-            array('fun' => 'j_report_1_5', 'param' => ''),
-            array('fun' => 'j_report_1_6', 'param' => ''),
-            array('fun' => 'j_report_1_7', 'param' => ''),
-            array('fun' => 'j_report_1_8', 'param' => ''),
-            array('fun' => 'j_report_2_1', 'param' => '2'),
-            array('fun' => 'j_report_2_2', 'param' => '2'),
-            array('fun' => 'j_report_2_3', 'param' => '2'),
-            array('fun' => 'j_report_2_1', 'param' => '3'),
-            array('fun' => 'j_report_2_2', 'param' => '3'),
-            array('fun' => 'j_report_2_3', 'param' => '3'),
-            array('fun' => 'j_report_2_1', 'param' => '4'),
-            array('fun' => 'j_report_2_2', 'param' => '4'),
-            array('fun' => 'j_report_2_3', 'param' => '4'),
-            array('fun' => 'j_report_2_1', 'param' => '5'),
-            array('fun' => 'j_report_2_2', 'param' => '5'),
-            array('fun' => 'j_report_2_3', 'param' => '5'),
-            array('fun' => 'j_report_2_1', 'param' => '6'),
-            array('fun' => 'j_report_2_2', 'param' => '6'),
-            array('fun' => 'j_report_2_3', 'param' => '6'),
-            array('fun' => 'j_report_2_1', 'param' => '7'),
-            array('fun' => 'j_report_2_2', 'param' => '7'),
-            array('fun' => 'j_report_2_3', 'param' => '7'),
-            array('fun' => 'j_report_2_1', 'param' => '8'),
-            array('fun' => 'j_report_2_2', 'param' => '8'),
-            array('fun' => 'j_report_2_3', 'param' => '8'),
+//            array('fun' => 'j_report_1_3', 'param' => ''),
+//            array('fun' => 'j_report_1_4', 'param' => ''),
+//            array('fun' => 'j_report_1_5', 'param' => ''),
+//            array('fun' => 'j_report_1_6', 'param' => ''),
+//            array('fun' => 'j_report_1_7', 'param' => ''),
+//            array('fun' => 'j_report_1_8', 'param' => ''),
+//            array('fun' => 'j_report_2_1', 'param' => '2'),
+//            array('fun' => 'j_report_2_2', 'param' => '2'),
+//            array('fun' => 'j_report_2_3', 'param' => '2'),
+//            array('fun' => 'j_report_2_1', 'param' => '3'),
+//            array('fun' => 'j_report_2_2', 'param' => '3'),
+//            array('fun' => 'j_report_2_3', 'param' => '3'),
+//            array('fun' => 'j_report_2_1', 'param' => '4'),
+//            array('fun' => 'j_report_2_2', 'param' => '4'),
+//            array('fun' => 'j_report_2_3', 'param' => '4'),
+//            array('fun' => 'j_report_2_1', 'param' => '5'),
+//            array('fun' => 'j_report_2_2', 'param' => '5'),
+//            array('fun' => 'j_report_2_3', 'param' => '5'),
+//            array('fun' => 'j_report_2_1', 'param' => '6'),
+//            array('fun' => 'j_report_2_2', 'param' => '6'),
+//            array('fun' => 'j_report_2_3', 'param' => '6'),
+//            array('fun' => 'j_report_2_1', 'param' => '7'),
+//            array('fun' => 'j_report_2_2', 'param' => '7'),
+//            array('fun' => 'j_report_2_3', 'param' => '7'),
+//            array('fun' => 'j_report_2_1', 'param' => '8'),
+//            array('fun' => 'j_report_2_2', 'param' => '8'),
+//            array('fun' => 'j_report_2_3', 'param' => '8'),
         );
         //获取数据并写入excel
         foreach ($j_f as $k => $f) {
@@ -190,7 +191,33 @@ class export extends base {
             unset($data);
             //if ($k == 5) break;
         }
+        //写入各区域的信息
+        $junioInfo = model_export::j_rank(true);
+        if (!empty($junioInfo)) {
+            foreach ($junioInfo as $mcode => $name) {
+                self::create_new_sheet($name);
+                $data = model_export::content('junior', $mcode);
+                if (empty($data)) continue;
+                if (isset($data['name'])) {
+                    $this->write_excel($data);
+                } else {
+                    foreach ($data as $d) {
+                        $this->write_excel($d);
+                    }
+                }
+                unset($data);
+            }
+        }
         $this->ouput_excel($fileName);
+    }
+
+    public function create_new_sheet($name) {
+        self::$excel->createSheet();
+        self::$eSheet = self::$excel->getSheet(self::$eSheetIndex);
+        self::$eSheet->setTitle($name);
+        self::$eSheetIndex += 1;
+        $this->h = 3;
+        $this->l = 1;
     }
 
 
