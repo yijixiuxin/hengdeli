@@ -17,7 +17,7 @@ class export extends base {
     public $h = 2;
     public $l = 1;
     public $column = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V' ,'W', 'X', 'Y', 'Z');
-    public $cField = array('服务细节', '检测指标');
+    public $cField = array('服务细节', '检测指标', '检测项目');
     public $cstage = null;
     public $cacheDir = 'upload/';
 
@@ -50,7 +50,7 @@ class export extends base {
     public function __construct() {
         parent::__construct();
         set_time_limit(0);
-        ini_set('memory_limit', '2048M');
+        ini_set('memory_limit', '4048M');
         $user_info = model_user::cuser();
         $this->cstage = base::$context['cstage'];
         require ROOT_PATH.'/core/lib/excel/PHPExcel.php';
@@ -112,7 +112,6 @@ class export extends base {
                 array('fun' => 'g_report_2_1', 'param' => '8'),
                 array('fun' => 'g_report_2_2', 'param' => '8'),
                 array('fun' => 'g_report_2_3', 'param' => '8'),
-
         );
 
         //获取数据并写入excel
@@ -128,7 +127,6 @@ class export extends base {
                 }
             }
             unset($data);
-           //if ($k == 5) break;
         }
         $this->ouput_excel($fileName);
     }
@@ -146,35 +144,35 @@ class export extends base {
 
         //区域需要调用的方法
         $j_f = array(
-            //array('fun' => 'j_report_1_1', 'param' => ''),
+            array('fun' => 'j_report_1_1', 'param' => ''),
             array('fun' => 'j_report_1_2', 'param' => ''),
-//            array('fun' => 'j_report_1_3', 'param' => ''),
-//            array('fun' => 'j_report_1_4', 'param' => ''),
-//            array('fun' => 'j_report_1_5', 'param' => ''),
-//            array('fun' => 'j_report_1_6', 'param' => ''),
-//            array('fun' => 'j_report_1_7', 'param' => ''),
-//            array('fun' => 'j_report_1_8', 'param' => ''),
-//            array('fun' => 'j_report_2_1', 'param' => '2'),
-//            array('fun' => 'j_report_2_2', 'param' => '2'),
-//            array('fun' => 'j_report_2_3', 'param' => '2'),
-//            array('fun' => 'j_report_2_1', 'param' => '3'),
-//            array('fun' => 'j_report_2_2', 'param' => '3'),
-//            array('fun' => 'j_report_2_3', 'param' => '3'),
-//            array('fun' => 'j_report_2_1', 'param' => '4'),
-//            array('fun' => 'j_report_2_2', 'param' => '4'),
-//            array('fun' => 'j_report_2_3', 'param' => '4'),
-//            array('fun' => 'j_report_2_1', 'param' => '5'),
-//            array('fun' => 'j_report_2_2', 'param' => '5'),
-//            array('fun' => 'j_report_2_3', 'param' => '5'),
-//            array('fun' => 'j_report_2_1', 'param' => '6'),
-//            array('fun' => 'j_report_2_2', 'param' => '6'),
-//            array('fun' => 'j_report_2_3', 'param' => '6'),
-//            array('fun' => 'j_report_2_1', 'param' => '7'),
-//            array('fun' => 'j_report_2_2', 'param' => '7'),
-//            array('fun' => 'j_report_2_3', 'param' => '7'),
-//            array('fun' => 'j_report_2_1', 'param' => '8'),
-//            array('fun' => 'j_report_2_2', 'param' => '8'),
-//            array('fun' => 'j_report_2_3', 'param' => '8'),
+            array('fun' => 'j_report_1_3', 'param' => ''),
+            array('fun' => 'j_report_1_4', 'param' => ''),
+            array('fun' => 'j_report_1_5', 'param' => ''),
+            array('fun' => 'j_report_1_6', 'param' => ''),
+            array('fun' => 'j_report_1_7', 'param' => ''),
+            array('fun' => 'j_report_1_8', 'param' => ''),
+            array('fun' => 'j_report_2_1', 'param' => '2'),
+            array('fun' => 'j_report_2_2', 'param' => '2'),
+            array('fun' => 'j_report_2_3', 'param' => '2'),
+            array('fun' => 'j_report_2_1', 'param' => '3'),
+            array('fun' => 'j_report_2_2', 'param' => '3'),
+            array('fun' => 'j_report_2_3', 'param' => '3'),
+            array('fun' => 'j_report_2_1', 'param' => '4'),
+            array('fun' => 'j_report_2_2', 'param' => '4'),
+            array('fun' => 'j_report_2_3', 'param' => '4'),
+            array('fun' => 'j_report_2_1', 'param' => '5'),
+            array('fun' => 'j_report_2_2', 'param' => '5'),
+            array('fun' => 'j_report_2_3', 'param' => '5'),
+            array('fun' => 'j_report_2_1', 'param' => '6'),
+            array('fun' => 'j_report_2_2', 'param' => '6'),
+            array('fun' => 'j_report_2_3', 'param' => '6'),
+            array('fun' => 'j_report_2_1', 'param' => '7'),
+            array('fun' => 'j_report_2_2', 'param' => '7'),
+            array('fun' => 'j_report_2_3', 'param' => '7'),
+            array('fun' => 'j_report_2_1', 'param' => '8'),
+            array('fun' => 'j_report_2_2', 'param' => '8'),
+            array('fun' => 'j_report_2_3', 'param' => '8'),
         );
         //获取数据并写入excel
         foreach ($j_f as $k => $f) {
@@ -195,7 +193,7 @@ class export extends base {
         $junioInfo = model_export::j_rank(true);
         if (!empty($junioInfo)) {
             foreach ($junioInfo as $mcode => $name) {
-                self::create_new_sheet($name);
+                self::create_new_sheet($name, $mcode);
                 $data = model_export::content('junior', $mcode);
                 if (empty($data)) continue;
                 if (isset($data['name'])) {
@@ -211,13 +209,28 @@ class export extends base {
         $this->ouput_excel($fileName);
     }
 
-    public function create_new_sheet($name) {
+    public function create_new_sheet($name, $mcode) {
         self::$excel->createSheet();
         self::$eSheet = self::$excel->getSheet(self::$eSheetIndex);
         self::$eSheet->setTitle($name);
         self::$eSheetIndex += 1;
-        $this->h = 3;
+        $this->h = 2;
         $this->l = 1;
+        $this->set_head_logo();
+        //写入基础信息
+        $headData = array();
+        $m_name = model_mendian::getItem(model_export::$acode, "{$mcode}:name");
+        $cstage = base::$context['cstage'];
+        $datas = model_statistics::get($cstage['pid'], $cstage['stage'], 'byarea');
+        $datas = $datas[model_export::$acode]['total'];
+        $m_fenshu = $datas[$mcode];
+        $m_qi = '第'.$this->cstage['stage'].'期';
+        $m_qu = $this->qu[model_export::$acode];
+        $hData = array($m_qi, $m_qu, $m_name, $m_fenshu);
+        $tInfo = array('title' => array(), 'name' => array(), 'data' => array($hData));
+        //var_dump($tInfo);exit();
+        $this->write_excel($tInfo);
+
     }
 
 
@@ -308,6 +321,7 @@ class export extends base {
                 $i = 1;
                 foreach($data as $d) {
                     $d = str_replace('<br />', '', $d);
+                    $d = str_replace('<br/>', '', $d);
                     if ($i == 1 && $cField === true) {
                         self::$eSheet->setCellValue($this->column[$this->l].$this->h, $d);
                         $this->set_excel_font($this->column[$this->l].$this->h, 10);

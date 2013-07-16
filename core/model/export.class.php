@@ -83,10 +83,10 @@ class model_export extends model_base {
         $tInfo['name'] = $titleName;
         $tInfo['title'] = array(
                 array(0 => ' ', 'l' => 2),
-                array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65分)', '[65分,75分)', '[75分,85分)', '[85分,100分)')),
-                array(0 => '集团平均分', 'l' => 2),
+                array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65分]', '[65分,75分]', '[75分,85分]', '[85分,100分]')),
+                array(0 => '集团平均成绩', 'l' => 2),
                 array(0 => '众数', 'l' => 2),
-                array(0 => '中数', 'l' => 2)
+                array(0 => '中位数', 'l' => 2)
         );
         @array_unshift($cAnalyse, '本期');
         $tInfo['data'] = array($cAnalyse);
@@ -258,6 +258,7 @@ class model_export extends model_base {
                 $certainAcode[] = $acode;
             }
         }
+        $data1 = util_sort::bubbleSort($data1, 'score', 'D', 'rank', $acount-count($data1));
         $groups = model_project::calcbleGroup($cstage['pid']);
         $data2['datas'] = array();
         foreach ($groups as $gcode => $ginfo) {
@@ -618,10 +619,10 @@ class model_export extends model_base {
         $tInfo['name'] = $tName;
         $tInfo['title'] = array(
             array(0 => '', 'l' => 2),
-            array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65分)', '[65分,75分)', '[75分,85分)', '[85分,100分)')),
+            array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65%]', '[65%,75%]', '[75%,85%]', '[85%,100%]')),
             array(0 => '集团平均成绩', 'l' => 2),
             array(0 => '众数', 'l' => 2),
-            array(0 => '中数', 'l' => 2)
+            array(0 => '中位数', 'l' => 2)
         );
         @array_unshift($cAnalyse, '本期');
         @array_unshift($pAnalyse, '上期');
@@ -816,10 +817,10 @@ class model_export extends model_base {
         $tInfo['name'] = $tName;
         $tInfo['title'] = array(
             array(0 => '', 'l' => 2),
-            array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65分)', '[65分,75分)', '[75分,85分)', '[85分,100分)')),
+            array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65分]', '[65分,75分]', '[75分,85分]', '[85分,100分]')),
             array(0 => '区域平均成绩', 'l' => 2),
             array(0 => '众数', 'l' => 2),
-            array(0 => '中数', 'l' => 2)
+            array(0 => '中位数', 'l' => 2)
         );
         $tInfo['data'] = array($cAnalyse, $pAnalyse, $compare);
         $rank = self::j_rank(false);
@@ -1195,10 +1196,10 @@ class model_export extends model_base {
         $tInfo['name'] = $tName;
         $tInfo['title'] = array(
             array(0 => '', 'l' => 2),
-            array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65分)', '[65分,75分)', '[75分,85分)', '[85分,100分)')),
+            array(0 => '频次分布', 'l' => 2, 'c' => 4, 'cs' => array('[0,65%]', '[65%,75%]', '[75%,85%]', '[85%,100%]')),
             array(0 => '区域平均成绩', 'l' => 2),
             array(0 => '众数', 'l' => 2),
-            array(0 => '中数', 'l' => 2)
+            array(0 => '中位数', 'l' => 2)
         );
         $tInfo['data'] = array($cAnalyse, $pAnalyse, $compare);
         return $tInfo;
